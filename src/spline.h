@@ -681,4 +681,3 @@ std::vector<double> band_matrix::lu_solve(const std::vector<double>& b,
 #pragma GCC diagnostic pop
 
 #endif /* TK_SPLINE_H */
-{"mode":"full","isActive":false}
