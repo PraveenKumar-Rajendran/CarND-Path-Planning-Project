@@ -293,11 +293,6 @@ int main() {
           }
 
 
-
-
-
-
-
           msgJson["next_x"] = next_x_vals;
           msgJson["next_y"] = next_y_vals;
 
