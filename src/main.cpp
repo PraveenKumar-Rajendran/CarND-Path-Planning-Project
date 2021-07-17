@@ -135,7 +135,7 @@ int main() {
               
               // if (((check_car_s -  car_s) > -25.0) && (( check_car_s - car_s) < 40.0)) 
               // if the gap of main car with reference car is less than safe distance
-              if ( ( check_car_s - car_s) < SAFETY_DISTANCE ) 
+              if ( ( check_car_s > car_s ) && ( ( check_car_s - car_s) < SAFETY_DISTANCE ) ) 
               {
 
                 // collision warning flag
@@ -251,31 +251,35 @@ int main() {
 
           // SECTION 5 : spline for trajectory
 
+          // create a spline
           tk::spline s;
 
-          //
+          // set (x, y) points to the spline ==> referred from Path Planning Walkthrough ( Project Q & A video )
           s.set_points(ptsx, ptsy);
 
-          //
+          // start with all of the previous path points from last time
           for(int i = 0; i < previous_path_x.size(); ++i)
           {
             next_x_vals.push_back(previous_path_x[i]);
             next_y_vals.push_back(previous_path_y[i]);
           }
 
-          //
+          // calculate how to break up spline points so that we travel at our desired reference velocity
+
           double target_x = 30.0;
           double target_y = s(target_x);
           double target_dist = sqrt( target_x * target_x + target_y * target_y);
           double x_add_on = 0.0;
 
-          // Breaking the target distance into N points
-          double N = target_dist / (0.02*ref_velocity_mph/2.24);
+          // // Breaking the target distance into N points
+          // double N = target_dist / (0.02*ref_velocity_mph/2.24);
           
-          //
+          // Fill up the rest of our path planner after filling it with prev
           for (int i = 0; i <= 50 - previous_path_x.size(); ++i)
           {
 
+            // Breaking the target distance into N points
+            double N = target_dist / ( 0.02*ref_velocity_mph / 2.24 );
             double x_point = x_add_on + (target_x)/N;
             double y_point = s(x_point);
 
