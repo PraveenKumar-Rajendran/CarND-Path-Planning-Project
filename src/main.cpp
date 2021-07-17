@@ -177,7 +177,7 @@ int main() {
             // shift to right lane if we are not in the right most lane and right lane is safe to shift            
             else if(right_shift_safe)  {lane_num+=1;}
             // if no lane is available, follow the front car and decelerate(with the given limit) to avoid collision.
-            else{ if( ahead_car_speed < (MAX_SPEED-1) ){ref_velocity_mph -= 0.224;} }
+            else{ if( ahead_car_speed <= (MAX_SPEED) ){ref_velocity_mph -= 0.224;} }
 
           }
 
