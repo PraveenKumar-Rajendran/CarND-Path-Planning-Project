@@ -10,7 +10,7 @@
 #include "spline.h"
 
 #define MAX_SPEED 49.0
-#define SAFETY_DISTANCE 35.0
+#define SAFETY_DISTANCE 30.0
 
 
 // for convenience
@@ -116,7 +116,7 @@ int main() {
           // SECTION 1: safety flag setting
           // Lane shift flag setting according to sensor fusion data to avoid collision and maintaining the speed as possible.
           // collision warning flag and Lane availability flags
-
+         double ahead_car_speed;
          bool collision_warning = false;
          bool left_shift_safe = true;
          bool right_shift_safe = true;
@@ -142,6 +142,7 @@ int main() {
                 if(( d < (2 + 4* lane_num + 2)) && (d > (2 + 4*lane_num - 2)) && (check_car_s > car_s))
                 {
                 collision_warning = true;
+                ahead_car_speed = check_speed * 2.24; 
                 }
                 // We know that left most lane number is 0 and right most lane number is 2
 
@@ -174,7 +175,7 @@ int main() {
             // shift to right lane if we are not in the right most lane and right lane is safe to shift            
             else if(right_shift_safe)  {lane_num+=1;}
             // if no lane is available, follow the front car and decelerate(with the given limit) to avoid collision.
-            else{ref_velocity_mph -= 0.224;} 
+            else{ if( ahead_car_speed < (MAX_SPEED + 1) ){ref_velocity_mph -= 0.224;} }
 
           }
 
