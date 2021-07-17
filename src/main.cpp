@@ -135,7 +135,7 @@ int main() {
               
               // if (((check_car_s -  car_s) > -25.0) && (( check_car_s - car_s) < 40.0)) 
               // if the gap of main car with reference car is less than safe distance
-              if ( ( check_car_s - car_s) < SAFETY_DISTANCE ) ) 
+              if ( ( check_car_s - car_s) < SAFETY_DISTANCE ) 
               {
 
                 // collision warning flag
