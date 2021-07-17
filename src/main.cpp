@@ -10,7 +10,7 @@
 #include "spline.h"
 
 #define MAX_SPEED 49.5
-#define SAFETY_DISTANCE 40.0
+#define SAFETY_DISTANCE 30.0
 
 
 // for convenience
