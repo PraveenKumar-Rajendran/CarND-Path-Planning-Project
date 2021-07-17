@@ -192,46 +192,49 @@ int main() {
           double ref_yaw = deg2rad(car_yaw);
 
           
-          if (prev_path_size < 2){
+          if (prev_path_size < 2)
+          {
 
             // action for previous size is almost empty
             double prev_car_x = car_x - cos(car_yaw);
-		    double prev_car_y = car_y - sin(car_yaw);
+            double prev_car_y = car_y - sin(car_yaw);
 
             ptsx.push_back(prev_car_x);
             ptsy.push_back(prev_car_y);
-		    ptsx.push_back(car_x);
-		    ptsy.push_back(car_y);
+            ptsx.push_back(car_x);
+            ptsy.push_back(car_y);
+
           }
           else
           {
 
             // action for previous size bigger than 1
             ref_x = previous_path_x[prev_path_size-1];
-		    ref_y = previous_path_y[prev_path_size-1];
+            ref_y = previous_path_y[prev_path_size-1];
 
             double ref_x_prev = previous_path_x[prev_path_size - 2];
             double ref_y_prev = previous_path_y[prev_path_size - 2];
             ref_yaw = atan2(ref_y - ref_y_prev, ref_x - ref_x_prev);
             ptsx.push_back(ref_x_prev);
             ptsy.push_back(ref_y_prev);
-		    ptsx.push_back(ref_x);
-		    ptsy.push_back(ref_y);
+            ptsx.push_back(ref_x);
+            ptsy.push_back(ref_y);
+
           }
 
           // SECTION 4 : spaced points == > Referred from Project Q & A
 
           vector<double> next_wp0 = getXY(car_s + 30, (2 + 4*lane_num), map_waypoints_s, map_waypoints_x, map_waypoints_y);
-	      vector<double> next_wp1 = getXY(car_s + 60, (2 + 4*lane_num), map_waypoints_s, map_waypoints_x, map_waypoints_y);
-	      vector<double> next_wp2 = getXY(car_s + 90, (2 + 4*lane_num), map_waypoints_s, map_waypoints_x, map_waypoints_y);
+          vector<double> next_wp1 = getXY(car_s + 60, (2 + 4*lane_num), map_waypoints_s, map_waypoints_x, map_waypoints_y);
+          vector<double> next_wp2 = getXY(car_s + 90, (2 + 4*lane_num), map_waypoints_s, map_waypoints_x, map_waypoints_y);
 
           ptsx.push_back(next_wp0[0]);
-	      ptsx.push_back(next_wp1[0]);
-	      ptsx.push_back(next_wp2[0]);
+          ptsx.push_back(next_wp1[0]);
+          ptsx.push_back(next_wp2[0]);
 
-	      ptsy.push_back(next_wp0[1]);
-	      ptsy.push_back(next_wp1[1]);
-	      ptsy.push_back(next_wp2[1]);
+          ptsy.push_back(next_wp0[1]);
+          ptsy.push_back(next_wp1[1]);
+          ptsy.push_back(next_wp2[1]);
 
           // Shift
           for(int i =0; i < ptsx.size(); ++i)
@@ -288,7 +291,6 @@ int main() {
 
             next_x_vals.push_back(x_point);
             next_y_vals.push_back(y_point);
-
 
           }
 
