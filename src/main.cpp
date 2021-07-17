@@ -9,8 +9,8 @@
 #include "json.hpp"
 #include "spline.h"
 
-#define MAX_SPEED 49.0
-#define SAFETY_DISTANCE 30.0
+#define MAX_SPEED 50.0
+#define SAFETY_DISTANCE 20.0
 
 
 // for convenience
