@@ -10,7 +10,7 @@
 #include "spline.h"
 
 #define MAX_SPEED 49.5
-#define SAFETY_DISTANCE 35.0
+#define SAFETY_DISTANCE 40.0
 
 
 // for convenience
@@ -121,7 +121,7 @@ int main() {
          bool left_shift_safe = true;
          bool right_shift_safe = true;
 
-         for (int i = 0; i  < sensor_fusion.size(); ++i)
+         for (int i = 0; i  < sensor_fusion.size() ; ++i)
           {
 
               float d = sensor_fusion[i][6];            
@@ -134,7 +134,7 @@ int main() {
               check_car_s += (double)prev_path_size*0.02*check_speed; 
               
               // if the gap of main car with reference car is less than safe distance
-              if ( ((check_car_s -  car_s) > -25.0) || ( check_car_s > car_s ) ) && ( ( check_car_s - car_s) < SAFETY_DISTANCE ) ) 
+              if ( (( (check_car_s -  car_s) > -25.0) || ( check_car_s > car_s ) ) && ( ( check_car_s - car_s) < SAFETY_DISTANCE ) ) 
               {
 
                 // collision warning flag
