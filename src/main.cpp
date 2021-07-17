@@ -133,14 +133,12 @@ int main() {
               // check_car_s in the future
               check_car_s += (double)prev_path_size*0.02*check_speed; 
               
-              // if the gap of main car with reference car is less than safe distance
-              // if ( (( (check_car_s -  car_s) > -20.0) || ( check_car_s > car_s ) ) && ( ( check_car_s - car_s) < SAFETY_DISTANCE ) ) 
-               
+              // if the gap of main car with reference car is less than safe distance               
 
                 // collision warning flag
                 if(( d < (2 + 4* lane_num + 2)) && (d > (2 + 4*lane_num - 2)) && (check_car_s > car_s))
                 {
-                if ( (check_car_s > car_s) && (( check_car_s - car_s) < SAFETY_DISTANCE) )
+                if ( ( check_car_s - car_s ) < SAFETY_DISTANCE )
                 {
                   collision_warning = true;
                   ahead_car_speed = check_speed * 2.24;                
@@ -194,11 +192,12 @@ int main() {
           double ref_y = car_y;
           double ref_yaw = deg2rad(car_yaw);
 
-          
+          // if previous size is almost empty, use the car as starting reference
+
           if (prev_path_size < 2)
           {
 
-            // action for previous size is almost empty
+            // use two points that make the path tangent to the car
             double prev_car_x = car_x - cos(car_yaw);
             double prev_car_y = car_y - sin(car_yaw);
 
@@ -208,16 +207,19 @@ int main() {
             ptsy.push_back(car_y);
 
           }
+          // use the previous path's end point as starting reference
           else
           {
 
-            // action for previous size bigger than 1
+            // Redefine reference state as previous path end point
             ref_x = previous_path_x[prev_path_size-1];
             ref_y = previous_path_y[prev_path_size-1];
 
             double ref_x_prev = previous_path_x[prev_path_size - 2];
             double ref_y_prev = previous_path_y[prev_path_size - 2];
             ref_yaw = atan2(ref_y - ref_y_prev, ref_x - ref_x_prev);
+
+            // use two points  that make the path tangent to the previous path's end point
             ptsx.push_back(ref_x_prev);
             ptsy.push_back(ref_y_prev);
             ptsx.push_back(ref_x);
@@ -226,6 +228,8 @@ int main() {
           }
 
           // SECTION 4 : spaced points == > Referred from Project Q & A
+
+          // In Frenet add evenly 30m spaced points ahead of the starting reference
 
           vector<double> next_wp0 = getXY(car_s + 30, (2 + 4*lane_num), map_waypoints_s, map_waypoints_x, map_waypoints_y);
           vector<double> next_wp1 = getXY(car_s + 60, (2 + 4*lane_num), map_waypoints_s, map_waypoints_x, map_waypoints_y);
@@ -239,7 +243,7 @@ int main() {
           ptsy.push_back(next_wp1[1]);
           ptsy.push_back(next_wp2[1]);
 
-          // Shift
+          // Shift car reference angle to 0 degrees ==> Referred from Project Q & A
           for(int i =0; i < ptsx.size(); ++i)
           {
 
@@ -266,7 +270,7 @@ int main() {
             next_y_vals.push_back(previous_path_y[i]);
           }
 
-          // calculate how to break up spline points so that we travel at our desired reference velocity
+          // calculate how to break up spline points so that we travel at our desired reference velocity ==> Referred from Project Q & A
 
           double target_x = 30.0;
           double target_y = s(target_x);
@@ -276,7 +280,7 @@ int main() {
           // // Breaking the target distance into N points
           // double N = target_dist / (0.02*ref_velocity_mph/2.24);
           
-          // Fill up the rest of our path planner after filling it with prev
+          // Fill up the rest of our path planner after filling it with previous points, here we will always output 50 points
           for (int i = 0; i <= 50 - previous_path_x.size(); ++i)
           {
 
@@ -290,6 +294,7 @@ int main() {
             double x_ref = x_point;
             double y_ref = y_point;
 
+            // rotate back to normal after rotating it earlier
             x_point = (x_ref * cos(ref_yaw) - y_ref * sin(ref_yaw));
             y_point = (x_ref * sin(ref_yaw) + y_ref * cos(ref_yaw));
 

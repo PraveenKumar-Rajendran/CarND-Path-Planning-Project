@@ -52,6 +52,28 @@ A really helpful resource for doing this project and creating smooth trajectorie
 
 <h3>Path Planning</h3>
 
+Path planning is implementation for this project contains 5 main sections.
+
+### SECTION 1: safety flag setting
+
+Lane shift flag setting according to sensor fusion data to avoid collision and maintaining the speed as possible, the flags are collision warning flag and Lane availability flags.
+
+### SECTION 2: Lane shift behaviour
+
+After the flag setting, actual action variable of lane_number and ref_velocity is being modified in this section.
+
+### SECTION 3: Path decide
+
+Calculation of reference x, reference y, reference yaw is done and and reference x and y points are pushed to ptsx , ptsy
+
+### SECTION 4: Evenly spaced points
+
+As referred from the project Q & A video, In Frenet evenly 30m spaced waypoints ahead of the starting reference is added and pushed to ptsx , ptsy and car reference angle is being shifted to 0 degrees
+
+### SECTION 5: Usage of spline for trajectory
+
+ptsx, ptsy is given as setpoints for creating spline. calculatin to break up spline points so that we travel at our desired reference velocity is implemented. Finally our path planner alwyas outputs 50 points by filling it with previous points. next_x_vals, next_y_vals is fed to the simulator.
+
 
 <h3>Results</h3>
 
